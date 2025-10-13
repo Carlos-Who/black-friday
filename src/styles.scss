@@ -16,7 +16,9 @@ html {
   scrollbar-gutter: stable;
 }
 
-html.no-scroll { overflow: hidden; }
+html.no-scroll {
+  overflow: hidden;
+}
 
 #black-friday-app.black-friday {
   display: block;
@@ -60,7 +62,6 @@ html.no-scroll { overflow: hidden; }
   }
 
 
-
   // ---------------- DUMMY --------------- //
   color: white;
   // -------------------------------------- //
@@ -98,7 +99,6 @@ html.no-scroll { overflow: hidden; }
   }
 
 
-
   .modal-sheet--overlay {
     position: fixed;
     top: 100%;
@@ -110,7 +110,6 @@ html.no-scroll { overflow: hidden; }
     background-color: #0c0c0e5c;
     backdrop-filter: blur(6px);
     visibility: hidden;
-
 
 
     .modal-sheet {
@@ -142,8 +141,8 @@ html.no-scroll { overflow: hidden; }
   }
 
 
-$size: 3rem;
---maxButtonWidth: 18rem;
+  $size: 3rem;
+  --maxButtonWidth: 18rem;
 
 
   .fab {
@@ -216,13 +215,118 @@ $size: 3rem;
     }
 
 
+  }
 
+
+  .tabs-gallery {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+
+  .heading-section {
+    margin-bottom: 1rem;
+  }
+
+  .tabs-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: .8rem;
+  }
+
+  .tabs-list .active {
+    background-color: #535bf2;
+  }
+
+  .tab-item {
+    cursor: pointer;
+    width: 65%;
+    padding: .8em;
+    border-radius: .2rem;
+    background-color: goldenrod;
+  }
+
+  .heading-title {
+
+  }
+
+  .heading-description {
+    width: 65%;
+    text-wrap: pretty;
+  }
+
+  .tabs-container--right {
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .tab-details {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateZ(0);
+  }
+
+  .tab-details__image {
+    width: 50%;
+    max-width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+    background-color: #494e62;
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .tab-details.is-active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .tab-details__container {
+    position: absolute;
+    left: 3rem;
+    bottom: 0;
+    display: block;
+    width: 50%;
+    padding: 1em;
+    background-color: #1a1a1a;
+  }
+
+  .tab-details__description {
+    overflow-wrap: anywhere;
   }
 
 
 
 
-} //- END
+
+
+
+  // ------ TEXT MASK ------
+
+  .quote {
+    width: 50%;
+    padding:1em;
+  }
+
+  .quote p {
+    color:#333;
+    max-width:1200px;
+    margin:auto;
+    font-family:sans-serif;
+    font-weight:bold;
+    font-size:clamp(16px, 4vw, 560px);
+  }
 
 
 
@@ -231,10 +335,14 @@ $size: 3rem;
 
 
 
+}
+
+//- END
 
 
 // Small devices (landscape phones, 576px and up)
-@media (min-width: 576px) {  }
+@media (min-width: 576px) {
+}
 
 // Medium devices (tablets, 768px and up)
 @media (min-width: 768px) {
@@ -246,10 +354,13 @@ $size: 3rem;
 }
 
 // Large devices (desktops, 992px and up)
-@media (min-width: 992px) {  }
+@media (min-width: 992px) {
+}
 
 // X-Large devices (large desktops, 1200px and up)
-@media (min-width: 1200px) {  }
+@media (min-width: 1200px) {
+}
 
 // XX-Large devices (larger desktops, 1400px and up)
-@media (min-width: 1400px) {  }
+@media (min-width: 1400px) {
+}

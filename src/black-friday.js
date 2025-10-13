@@ -247,4 +247,158 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     // GSDevTools.create({animation: stickyChipTimeLine});
 
+
+
+
+
+    // TABS
+
+    const tabItems = gsap.utils.toArray('.tab-item');
+    const panels   = gsap.utils.toArray('.tab-details');
+    const rightCol = document.querySelector('.tabs-container--right');
+
+    const DURATION = 0.45;        // velocidad de la transición
+    const EASE     = 'power2.out';
+    const IN_OFFSET = 8;          // % de desplazamiento desde la derecha al entrar (sutil)
+    const OUT_OFFSET = -4;        // % hacia la izquierda al salir (sutil)
+
+    let activeIndex = Math.max(0, tabItems.findIndex(t => t.classList.contains('active')));
+    if (activeIndex === -1) activeIndex = 0;
+
+// Estado inicial
+    gsap.set(panels, { opacity: 0, visibility: 'hidden', pointerEvents: 'none', position: 'absolute', inset: 0, xPercent: 0 });
+    panels.forEach(p => p.classList.remove('is-active'));
+
+    panels[activeIndex].classList.add('is-active');
+    gsap.set(panels[activeIndex], { opacity: 1, visibility: 'visible', pointerEvents: 'auto', xPercent: 0 });
+
+// Altura inicial del contenedor = altura del panel activo
+    gsap.set(rightCol, { height: panels[activeIndex].scrollHeight });
+
+// Timeline corriente (para evitar transiciones solapadas)
+    let currentTween = null;
+
+    function activate(index) {
+        if (index === activeIndex || currentTween?.isActive()) return;
+
+        const fromPanel = panels[activeIndex];
+        const toPanel   = panels[index];
+
+        // Medir altura destino
+        // Preparar panel entrante fuera de vista a la derecha con opacidad 0 para medir sin parpadeo
+        gsap.set(toPanel, { visibility: 'hidden', opacity: 0, pointerEvents: 'none', xPercent: IN_OFFSET });
+        toPanel.classList.add('is-active');
+        const targetHeight = toPanel.scrollHeight;
+
+        // Reset: lo dejamos oculto hasta iniciar animación
+        gsap.set(toPanel, { visibility: 'hidden', opacity: 0, pointerEvents: 'none', xPercent: IN_OFFSET });
+
+        // Clases / aria
+        tabItems[activeIndex].classList.remove('active');
+        tabItems[index].classList.add('active');
+        tabItems[activeIndex].setAttribute('aria-selected', 'false');
+        tabItems[index].setAttribute('aria-selected', 'true');
+
+        currentTween = gsap.timeline({
+            defaults: { duration: DURATION, ease: EASE },
+            onComplete: () => {
+                // Estado final consistente
+                panels.forEach((p, i) => {
+                    if (i === index) {
+                        p.classList.add('is-active');
+                        gsap.set(p, { opacity: 1, visibility: 'visible', pointerEvents: 'auto', xPercent: 0 });
+                    } else {
+                        p.classList.remove('is-active');
+                        gsap.set(p, { opacity: 0, visibility: 'hidden', pointerEvents: 'none', xPercent: 0 });
+                    }
+                });
+                activeIndex = index;
+            }
+        });
+
+        // 1) Ajusta altura del contenedor hacia el nuevo panel
+        currentTween.to(rightCol, { height: targetHeight }, 0);
+
+        // 2) Panel saliente: se desplaza levemente a la izquierda y se desvanece
+        currentTween.to(fromPanel, { xPercent: OUT_OFFSET, opacity: 0, onStart: () => gsap.set(fromPanel, { pointerEvents: 'none' }) }, 0);
+
+        // 3) Panel entrante: se hace visible, entra desde la derecha con fade-in
+        currentTween
+            .set(toPanel,   { visibility: 'visible' }, 0.05)
+            .to(toPanel,    { xPercent: 0, opacity: 1, onStart: () => gsap.set(toPanel, { pointerEvents: 'auto' }) }, 0.05);
+    }
+
+// Click handlers
+    tabItems.forEach((tab, i) => {
+        tab.addEventListener('click', () => activate(i));
+    });
+
+// Recalcular altura en resize
+//     window.addEventListener('resize', gsap.utils.debounce(() => {
+//         gsap.set(rightCol, { height: panels[activeIndex].scrollHeight });
+//     }, 150));
+
+
+
+
+
+
+
+
+    // ------ TEXT MASK ------
+    // https://gsap.com/community/forums/topic/42431-gsap-carousel/
+
+    const defaultColor = "#333";
+    const divHighlight = "#eee";
+    const spanHighlight = "#d59400";
+    const quoteSplit = SplitText.create(".quote p", {
+        type:"words"
+    })
+
+    const numWords = quoteSplit.words.length;
+
+    const tlx = gsap.timeline();
+
+    quoteSplit.words.forEach((word, index) => {
+        tlx.call(animateWord, [word], (index * 1) + 0.01)
+    })
+
+    tlx.set({}, {}, "+=0.01");
+
+
+    function animateWord(word) {
+        console.log(word.parentElement.nodeName)
+        if(stx.direction == 1) {
+            if(word.parentElement.nodeName == "P"){
+                gsap.to(word, {color:divHighlight})
+            } else {
+                gsap.to(word, {color:spanHighlight})
+            }
+
+        } else {
+            gsap.to(word, {color:defaultColor})
+        }
+    }
+
+    let stx = ScrollTrigger.create({
+        trigger:".quote",
+        markers: true,
+        start:"top 75%",
+        end:"center 65%",
+        scrub:true,
+        animation:tlx
+    })
+
+
+
+
+
+
+
+
+
+
+
+
+
 });
