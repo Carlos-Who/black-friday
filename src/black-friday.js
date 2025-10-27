@@ -382,7 +382,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     let stx = ScrollTrigger.create({
         trigger:".quote",
-        markers: true,
+        markers: false,
         start:"top 75%",
         end:"center 65%",
         scrub:true,
