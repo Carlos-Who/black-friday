@@ -382,10 +382,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     let stx = ScrollTrigger.create({
         trigger:".quote",
-        markers: false,
-        start:"top 75%",
-        end:"center 65%",
-        scrub:true,
+        markers: {startColor:"blue", endColor:"orange", fontSize:"12px"},
+        start:"top 40%",
+        end:"bottom 35%",
+        scrub: 1,
         animation:tlx
     })
 
@@ -400,5 +400,125 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
 
 
-
 });
+
+
+
+
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const verticalContainer     = document.getElementById("verticalContainer");
+    const crossFadeColumnLeft   = document.getElementById("crossFadeColumnLeft");
+    const crossFadeColumnRight  = document.getElementById("crossFadeColumnRight");
+
+    let mm = gsap.matchMedia();
+
+
+
+
+    mm.add("(max-width: 766px)", () => {
+        const items = gsap.utils.toArray(".crossfade-item");
+
+        items.forEach((item) => {
+            gsap.fromTo(item,
+                { autoAlpha: 0, y: 30 },
+                {
+                    autoAlpha: 1, y: 0,
+                    ease: "power1.out",
+                    duration: 0.6,
+                    scrollTrigger: {
+                        trigger: item,
+                        start: "top 85%",
+                        end: "top 60%",
+                        scrub: true,
+                        // once: true,
+                        invalidateOnRefresh: true
+                    }
+                }
+            );
+        });
+
+    });
+
+
+
+
+
+    mm.add("(min-width: 767px)", () => {
+
+
+        gsap.set(crossFadeColumnLeft, {
+            y: () => verticalContainer.getBoundingClientRect().height - crossFadeColumnLeft.getBoundingClientRect().height
+        });
+        gsap.set(crossFadeColumnRight, { y: 0 });
+
+        const crossFadeTimeline = gsap.timeline({
+            defaults: { ease: "none" },
+            scrollTrigger: {
+                trigger: verticalContainer,
+                start: "top top",
+                end: () => {
+                    const ph = verticalContainer.getBoundingClientRect().height;
+                    const lh = crossFadeColumnLeft.getBoundingClientRect().height;
+                    const rh = crossFadeColumnRight.getBoundingClientRect().height;
+                    const overflow = Math.max(lh - ph, rh - ph, 0);
+                    return `+=${overflow}`;
+                },
+                pin: true,
+                scrub: 1,
+                markers: false,
+                invalidateOnRefresh: true
+            }
+        })
+
+            .to(crossFadeColumnLeft, {
+                y: 0
+            })
+
+            .to(crossFadeColumnRight, {
+                y: () => verticalContainer.getBoundingClientRect().height - crossFadeColumnRight.getBoundingClientRect().height
+            }, "<");
+
+
+        window.addEventListener("load", () => ScrollTrigger.refresh());
+    });
+
+
+
+
+
+
+
+
+
+
+
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+let resizeTimer;
+window.addEventListener("resize", () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => ScrollTrigger.refresh(), 150);
+});
+

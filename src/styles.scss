@@ -89,7 +89,7 @@ html.no-scroll {
     width: 100%;
     max-width: 980px;
     margin: 0 auto;
-    border: 1px solid crimson;
+    //border: 1px solid crimson;
 
     @media (min-width: 1200px) {
       width: 90%;
@@ -312,21 +312,7 @@ html.no-scroll {
 
 
 
-  // ------ TEXT MASK ------
 
-  .quote {
-    width: 50%;
-    padding:1em;
-  }
-
-  .quote p {
-    color:#333;
-    max-width:1200px;
-    margin:auto;
-    font-family:sans-serif;
-    font-weight:bold;
-    font-size:clamp(16px, 4vw, 560px);
-  }
 
 
 
@@ -414,6 +400,148 @@ html.no-scroll {
       -webkit-backdrop-filter: blur(5px);
     }
   }
+
+
+
+
+
+
+
+  // CROSSFADE - CROSSFADE - CROSSFADE - CROSSFADE - CROSSFADE - CROSSFADE - CROSSFADE - CROSSFADE
+  // CROSSFADE - CROSSFADE - CROSSFADE - CROSSFADE - CROSSFADE - CROSSFADE - CROSSFADE - CROSSFADE
+  // CROSSFADE - CROSSFADE - CROSSFADE - CROSSFADE - CROSSFADE - CROSSFADE - CROSSFADE - CROSSFADE
+  // CROSSFADE - CROSSFADE - CROSSFADE - CROSSFADE - CROSSFADE - CROSSFADE - CROSSFADE - CROSSFADE
+
+  .bf-grid {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    grid-template-columns: 1fr;
+    border: 1px solid crimson;
+
+
+    @media screen and (min-width: 767px){
+      grid-template-columns: 1fr 1fr;
+      height: 100dvh;
+
+    }
+  }
+
+
+  .crossfade-gallery {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    overflow: hidden;
+    grid-template-columns: 1fr 1fr;
+    gap: .5rem;
+    height: 100%;
+    border: 1px dashed springgreen;
+  }
+
+  .crossfade-gallery--left {
+    position: static;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    .crossfade-item {
+      //background-color: #535bf2;
+    }
+  }
+
+  .crossfade-gallery--right {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    .crossfade-item {
+      background-color: coral;
+    }
+  }
+
+  .crossfade-gallery--left,
+  .crossfade-gallery--right {
+    min-width: 0;   /* clave en Grid */
+  }
+
+  .crossfade-item {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 18rem;
+    background-color: #535bf2;
+    border: 1px solid fuchsia;
+
+
+    @media (min-width: 800px){
+      .crossfade-item.crossfade-item { height: 30rem; }
+    }
+  }
+
+
+  .crossfade-item__details {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+
+    width: 100%;
+    height: 60%;
+    padding: 1em;
+    background: #000000;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
+  }
+
+  .crossfade-item__img {
+    display: block;
+    min-width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .crossfade-item__details-label {
+    text-align: center;
+    text-wrap: pretty;
+    text-transform: capitalize;
+    font-size: clamp(.9rem, 8vw, 1rem);
+  }
+
+  // ------ TEXT MASK ------
+
+  .highlight-quote__container {
+    display: flex;
+    align-items: center;
+  }
+
+  .quote {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: fit-content;
+    padding:1em;
+    border: 1px solid forestgreen;
+  }
+
+  .quote p {
+    color:#0c0c0c;
+    max-width:1200px;
+    margin:auto;
+    font-family:sans-serif;
+    font-weight:bold;
+    font-size:clamp(1rem, 10vw, 3rem);
+  }
+
+
+
+
 
 }
 
